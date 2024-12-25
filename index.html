@@ -6,21 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TG- @cric_stream</title>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.5.0/controls.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/clappr/latest/clappr.js" defer></script>
-    <script type="text/javascript" src="https://tv2.mgsportstv.com/Player/js/level.js" defer></script>
-    <script src="https://tv2.mgsportstv.com/Player/js/dash-shaka-playback.js" defer></script>
-    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest' defer></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/clappr/latest/clappr.js"></script>
+    <script type="text/javascript" src="https://tv2.mgsportstv.com/Player/js/level.js"></script>
+    <script src="https://tv2.mgsportstv.com/Player/js/dash-shaka-playback.js"></script>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest'></script>
     <style>
         body {
             margin: 0;
             padding: 5px;
-            background-color: white;
+            background-color: #111;
+            
         }
 
         #player {
-            width: 100%;
+            width:100%;
             height: 90vh;
-            background-color: black;
+            
         }
 
         @media (max-width: 768px) {
@@ -35,10 +36,9 @@
     <div id="player"></div>
 
     <script>
-        // Check if the MPD URL is valid
-        var dash_mpd_url = "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd";
-        var drmKeyId = "ae26845bd33038a9c0774a0981007294";
-        var drmKey = "63ac662dde310cfb4cc6f9b43b34196d";
+        var dash_mpd_url = "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/lsdasbvglv/out/v1/bb548a3626cd4708afbb94a58d71dce9/cenc.mpd";
+        var drmKeyId = "4e993aa8c1f295f8b94e8e9e6f6d0bfe";
+        var drmKey = "86a1ed6e96caab8eb1009fe530d2cf4f";
 
         var drmKeys = {};
         drmKeys[drmKeyId] = drmKey;
@@ -46,16 +46,17 @@
         var drmConfig = {
             clearKeys: drmKeys
         };
+        
+        var thumbnailURL = "https://www.langhamclub.co.uk/wp-content/uploads/2024/02/TNT2-1024x462.png";
 
-        // Remove thumbnail by not including the 'poster' property
         var player = new Clappr.Player({
             source: dash_mpd_url,
             mimeType: 'application/dash+xml',
             height: '100%',
             width: '100%',
-            autoPlay: true, // Ensure video starts automatically
-            preload: 'auto', // Preload video
-            // Removed the 'poster' property to not display a thumbnail
+            autoPlay: false,
+             preload: 'auto', 
+             poster: thumbnailURL,
             plugins: [LevelSelector, DashShakaPlayback, Clappr.MediaControl],
             mediacontrol: {
                 seekbar: "#886FFF",
@@ -69,19 +70,18 @@
                 drm: drmConfig,
                 abr: {
                     enabled: true,
-                    defaultBandwidthEstimate: 100000, // Force a low bandwidth estimate for faster initial buffering
+                    defaultBandwidthEstimate: 100000, // Force lower bandwidth estimate for default low quality
                     restrictions: {
-                        maxHeight: 540 // Force a lower initial resolution to avoid high startup times
+                        maxHeight: 540 // Restrict initial quality to 360p
                     }
                 }
             },
             events: {
                 onReady: function () {
-                    console.log("Player is ready!");
-                },
-                onError: function (error) {
-                    console.error("Player Error:", error);
-                    alert("An error occurred while loading the player.");
+                    var clickToPausePlugin = this.getPlugin("click_to_pause");
+                    if (clickToPausePlugin) {
+                        clickToPausePlugin.disable();
+                    }
                 },
                 onPlaybackReady: function () {
                     console.log('Playback ready!');
@@ -89,18 +89,11 @@
             },
             parentId: "#player"
         });
-
-        // Check if the player is ready to start playback
-        player.on(Clappr.Events.PLAYER_READY, function () {
-            console.log('Clappr player is initialized and ready.');
-        });
-
-        // Redirect to Telegram for more links after user confirmation
-        if (confirm("Join Our Telegram Channel @cric_stream For More Links")) {
-            window.location.href = "https://t.me/cric_stream";
-        }
+        
+        
+    if(confirm("Join Our Telegram Channel @cric_stream For More Links")) { window.location.href = "https://t.me/cric_stream" }
     </script>
-
+   
 </body>
 
 </html>
