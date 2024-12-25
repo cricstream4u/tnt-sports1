@@ -47,10 +47,7 @@
             clearKeys: drmKeys
         };
 
-        // Use an actual valid thumbnail URL
-        var thumbnailURL = "https://www.langhamclub.co.uk/wp-content/uploads/2024/02/TNT2-1024x462.png";
-
-        // Check if the player initializes correctly
+        // Remove thumbnail by not including the 'poster' property
         var player = new Clappr.Player({
             source: dash_mpd_url,
             mimeType: 'application/dash+xml',
@@ -58,7 +55,7 @@
             width: '100%',
             autoPlay: true, // Ensure video starts automatically
             preload: 'auto', // Preload video
-            poster: thumbnailURL, // Use a valid thumbnail image
+            // Removed the 'poster' property to not display a thumbnail
             plugins: [LevelSelector, DashShakaPlayback, Clappr.MediaControl],
             mediacontrol: {
                 seekbar: "#886FFF",
