@@ -14,12 +14,13 @@
         body {
             margin: 0;
             padding: 5px;
-            background-color: #111;
+            background-color: white;
         }
 
         #player {
             width: 100%;
             height: 90vh;
+            background-color: black;
         }
 
         @media (max-width: 768px) {
@@ -34,6 +35,7 @@
     <div id="player"></div>
 
     <script>
+        // Check if the MPD URL is valid
         var dash_mpd_url = "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd";
         var drmKeyId = "ae26845bd33038a9c0774a0981007294";
         var drmKey = "63ac662dde310cfb4cc6f9b43b34196d";
@@ -48,6 +50,7 @@
         // Use an actual valid thumbnail URL
         var thumbnailURL = "https://www.langhamclub.co.uk/wp-content/uploads/2024/02/TNT2-1024x462.png";
 
+        // Check if the player initializes correctly
         var player = new Clappr.Player({
             source: dash_mpd_url,
             mimeType: 'application/dash+xml',
@@ -77,10 +80,11 @@
             },
             events: {
                 onReady: function () {
-                    var clickToPausePlugin = this.getPlugin("click_to_pause");
-                    if (clickToPausePlugin) {
-                        clickToPausePlugin.disable(); // Disable the click-to-pause plugin for a smoother experience
-                    }
+                    console.log("Player is ready!");
+                },
+                onError: function (error) {
+                    console.error("Player Error:", error);
+                    alert("An error occurred while loading the player.");
                 },
                 onPlaybackReady: function () {
                     console.log('Playback ready!');
@@ -89,7 +93,12 @@
             parentId: "#player"
         });
 
-        // Redirect to Telegram for more links after a user confirmation
+        // Check if the player is ready to start playback
+        player.on(Clappr.Events.PLAYER_READY, function () {
+            console.log('Clappr player is initialized and ready.');
+        });
+
+        // Redirect to Telegram for more links after user confirmation
         if (confirm("Join Our Telegram Channel @cric_stream For More Links")) {
             window.location.href = "https://t.me/cric_stream";
         }
