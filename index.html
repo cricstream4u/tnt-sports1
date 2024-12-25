@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TG- @cric_stream</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/shaka-player/4.5.0/controls.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/clappr/latest/clappr.js" defer></script>
+    <script type="text/javascript" src="https://tv2.mgsportstv.com/Player/js/level.js" defer></script>
+    <script src="https://tv2.mgsportstv.com/Player/js/dash-shaka-playback.js" defer></script>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool@latest' defer></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 5px;
+            background-color: white;
+        }
+
+        #player {
+            width: 100%;
+            height: 90vh;
+        }
+
+        @media (max-width: 768px) {
+            #player {
+                height: 28vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="player"></div>
+
+    <script>
+        var dash_mpd_url = "https://ottb.live.cf.ww.aiv-cdn.net/lhr-nitro/live/clients/dash/enc/wf8usag51e/out/v1/bd3b0c314fff4bb1ab4693358f3cd2d3/cenc.mpd";
+        var drmKeyId = "ae26845bd33038a9c0774a0981007294";
+        var drmKey = "63ac662dde310cfb4cc6f9b43b34196d";
+
+        var drmKeys = {};
+        drmKeys[drmKeyId] = drmKey;
+
+        var drmConfig = {
+            clearKeys: drmKeys
+        };
+
+        var thumbnailURL = "CRIC stream Thumbnail .jpg";
+
+        var player = new Clappr.Player({
+            source: dash_mpd_url,
+            mimeType: 'application/dash+xml',
+            height: '100%',
+            width: '100%',
+            autoPlay: true, // Ensure video starts automatically
+            preload: 'auto', // Preload video
+            poster: thumbnailURL,
+            plugins: [LevelSelector, DashShakaPlayback, Clappr.MediaControl],
+            mediacontrol: {
+                seekbar: "#886FFF",
+                buttons: "#C8A8D8"
+            },
+            chromecast: {
+                appId: "9DFB77C0",
+                contentType: "video/mp4"
+            },
+            shakaConfiguration: {
+                drm: drmConfig,
+                abr: {
+                    enabled: true,
+                    defaultBandwidthEstimate: 100000, // Force a low bandwidth estimate for faster initial buffering
+                    restrictions: {
+                        maxHeight: 540 // Force a lower initial resolution to avoid high startup times
+                    }
+                }
+            },
+            events: {
+                onReady: function () {
+                    var clickToPausePlugin = this.getPlugin("click_to_pause");
+                    if (clickToPausePlugin) {
+                        clickToPausePlugin.disable(); // Disable the click-to-pause plugin for a smoother experience
+                    }
+                },
+                onPlaybackReady: function () {
+                    console.log('Playback ready!');
+                }
+            },
+            parentId: "#player"
+        });
+
+        // Redirect to Telegram for more links after a user confirmation
+        if (confirm("Join Our Telegram Channel @cric_stream For More Links")) {
+            window.location.href = "https://t.me/cric_stream";
+        }
+    </script>
+
+</body>
+
+</html>
