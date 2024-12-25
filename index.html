@@ -15,13 +15,11 @@
             margin: 0;
             padding: 5px;
             background-color: white;
-            
         }
 
         #player {
-            width:100%;
+            width: 100%;
             height: 90vh;
-            
         }
 
         @media (max-width: 768px) {
@@ -46,7 +44,7 @@
         var drmConfig = {
             clearKeys: drmKeys
         };
-        
+
         var thumbnailURL = "https://hqfilm4u.wuaze.com/wp-content/uploads/2024/12/CRIC-stream-Thumbnail-.jpg";
 
         var player = new Clappr.Player({
@@ -55,8 +53,8 @@
             height: '100%',
             width: '100%',
             autoPlay: false,
-             preload: 'auto', 
-             poster: thumbnailURL,
+            preload: 'metadata', // Change preload setting
+            poster: null, // Delay poster loading
             plugins: [LevelSelector, DashShakaPlayback, Clappr.MediaControl],
             mediacontrol: {
                 seekbar: "#886FFF",
@@ -67,12 +65,11 @@
                 contentType: "video/mp4"
             },
             shakaConfiguration: {
-                drm: drmConfig,
                 abr: {
                     enabled: true,
-                    defaultBandwidthEstimate: 100000, // Force lower bandwidth estimate for default low quality
+                    defaultBandwidthEstimate: 100000,
                     restrictions: {
-                        maxHeight: 540 // Restrict initial quality to 360p
+                        maxHeight: 540
                     }
                 }
             },
@@ -89,18 +86,18 @@
             },
             parentId: "#player"
         });
-        
-        
-    if(confirm("Join Our Telegram Channel @cric_stream For More Links")) { window.location.href = "https://t.me/cric_stream" }
+
+        if (confirm("Join Our Telegram Channel @cric_stream For More Links")) {
+            window.location.href = "https://t.me/cric_stream"
+        }
     </script>
-     <!-- Powered by Supercounters -->
+
     <center>
         <script type="text/javascript" src="//widget.supercounters.com/ssl/online_t.js"></script>
         <script type="text/javascript">sc_online_t(1703448, "Watching....", "#1d1d21");</script>
         <br>
         <noscript><a href="https://www.supercounters.com/"></a></noscript>
     </center>
-    <!-- END: Powered by Supercounters -->
 
     <div style="background-color: #0074d9; text-align: center; padding: 10px;">
         <a href="https://telegram.me/cric_stream" target="_blank">
